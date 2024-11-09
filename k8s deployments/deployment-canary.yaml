@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-canary
+  labels:
+    app: myapp-canary
+spec:
+  replicas: 1  # En un despliegue Canary, usualmente arrancamos con 1 réplica
+  selector:
+    matchLabels:
+      app: myapp-canary
+  template:
+    metadata:
+      labels:
+        app: myapp-canary
+    spec:
+      containers:
+      - name: myappcanary
+        image: jorgenico08/myappcanary:latest  # La imagen Docker que construiste para la versión 2
+        ports:
+        - containerPort: 5001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-canary
+  labels:
+    app: myapp-canary
+spec:
+  ports:
+  - port: 80
+    targetPort: 5001  # Map the service port to the container port
+    protocol: TCP
+    name: http
+  selector:
+    app: myapp-canary

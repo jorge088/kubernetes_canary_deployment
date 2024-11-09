@@ -1,0 +1,21 @@
+# Ingress para la aplicación canaria
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myapp-canary
+  annotations:
+    nginx.ingress.kubernetes.io/canary: "true"
+    nginx.ingress.kubernetes.io/canary-weight: "20"  # Ajusta el peso según sea necesario
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: minikube.local
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: myapp-canary
+            port:
+              number: 80

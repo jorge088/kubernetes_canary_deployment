@@ -1,0 +1,39 @@
+# Deployment for the main app (the stable or production version)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-stable
+  labels:
+    app: myapp-stable
+spec:
+  replicas: 3  # El número de réplicas (pods) para esta versión
+  selector:
+    matchLabels:
+      app: myapp-stable
+  template:
+    metadata:
+      labels:
+        app: myapp-stable
+    spec:
+      containers:
+      - name: myappv1
+        image: jorgenico08/myappv1:latest  # La imagen Docker que construiste para la versión 1
+        ports:
+        - containerPort: 5000
+---
+# Service for the main application
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-stable
+  labels:
+    app: myapp-stable
+spec:
+  ports:
+  - port: 80
+    targetPort: 5000  # Map the service port to the container port
+    protocol: TCP
+    name: http
+  selector:
+    app: myapp-stable
+
