@@ -16,3 +16,10 @@ Some of the steps followed to rich the objetive are detailed in [Canary Deployme
 2. In deployments directory, apply deployments for stable and canary version. Remember to edit image in deployment.yaml with your image at docker hub. Run 'kubectl apply -f deployment-version.yaml'. Then check all pods version and services are running with 'kubectl get pods' and 'kubectl get svc'.
 3. In deployments directory, apply ingress controller for stable and canary version. Run 'kubectl apply -f ingress-version.yaml'. Then check ingress are running with 'kubectl get ingress'.
 4. For localhost we need to add the following in '/etc/hosts' file: '<minikube. ip> minikube.local' . Obtain the minikube ip by runnin 'minikube ip' , this is the IP address of your cluster.
+5. On browser go to 'http://minikube.local/' and check the canary strategy is working for the defined ingress weight in the ingress-canary.yaml file.
+6. Optional: You can use Lens to controll and visualize your kubernetes cluster.
+
+### Deployments screenshot
+![Stable version app](./img/stable.png)
+
+![Canary version app](./img/canary.png)
